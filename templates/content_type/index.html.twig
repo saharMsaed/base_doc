@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Type {{ contentType.name }} {% endblock %}
+
+{% block body %}
+<h1 class="mt-3">Liste des contenu de type: {{ contentType.name }} </h1>
+<hr>
+<div class="album py-5 bg-light">
+    <div class="container"> 
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% if contentType.contents is empty %}
+      <div class="col d-inline-block text-center"> 
+        Pas de contenus disponibles ! 
+      </div>       
+      {% else %}        
+        {% for cont in contentType.contents %}
+          <div class="col d-inline-block">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h4> {{ cont.title }} </h4> 
+                {% for tag in cont.tags %}                              
+                  <small class="mb-1 text-muted">{{ tag }} / </small>                
+                {% endfor %}                         
+                <p class="card-text truncated">{{ cont.abstract }}</p>              
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Voir</button>                  
+                  </div>           
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+        
+      </div>
+    </div>
+  </div>
+{% endblock %}

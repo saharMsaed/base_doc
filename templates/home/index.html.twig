@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - Accueil {% endblock %}
+
+{% block body %}
+<style>
+.truncated {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
+<div class="navbar navbar-light bg-light shadow-sm">
+    <div class="container">
+      {% for contentType in contentTypes %}
+        <a href="{{ path('content_type', {'id': contentType.id }) }}" class="navbar-brand d-flex align-items-center">
+          <strong>{{ contentType.name }}</strong>
+        </a> 
+      {% endfor %}   
+    </div>
+  </div>
+<main>
+
+  <section class="py-5 text-center container">
+    <h3 class="fw-light">Recherche avancée</h3>
+    {{ form(form) }}        
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container"> 
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% if contents is empty %}
+      <div class="col d-inline-block text-center"> 
+        Pas de contenus disponibles ! 
+      </div>       
+      {% else %}        
+        {% for cont in contents %}
+          <div class="col d-inline-block">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h4> {{ cont.title }} </h4> 
+                {% for tag in cont.tags %}                              
+                  <small class="mb-1 text-muted">{{ tag }} / </small>                
+                {% endfor %}                         
+                <p class="card-text truncated">{{ cont.abstract }}</p>   
+                <small class="mb-2 text-muted"> Mots clé: {{ cont.keywords }} </small>                
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="{{ path('content', {'id': cont.id }) }}" class="mt-1 btn btn-sm btn-outline-secondary">Voir</a>                  
+                  </div>           
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+        
+      </div>
+    </div>
+  </div>
+
+</main>
+{% endblock %}

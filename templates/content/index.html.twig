@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails - {{ content.title }}{% endblock %}
+
+{% block body %}
+<h1 class="mt-3">Détails du contenu: {{ content.title }} </h1>
+<hr>
+{% for tag in content.tags %}                              
+    <small class="mb-1 text-muted">{{ tag }} / </small>                
+{% endfor %} 
+<hr>
+<p> {{content.abstract }} </p>
+<div>
+<small class="text-muted mb-2">Mots clés :</small>
+{{ content.keywords }}
+{% if content.sheets is empty %}
+{% else %}
+    <h5 class="mt-3"> Liste des fiches </h5>
+    <table class="table">
+    <thead>
+        <tr>      
+        <th scope="col">Statut</th>
+        <th scope="col">Note</th>
+        <th scope="col">Date publication</th>
+        <th scope="col">Date expiration</th>
+        <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sheet in content.sheets %}
+            <tr>
+                <td>{{ sheet.status }}</td>
+                <td>{{ sheet.shortInfo }}</td>
+                <td>{{ sheet.publicationDate|date('d/m/Y') }}</td>
+                <td>{{ sheet.expirationDate|date('d/m/Y') }} </td>
+                <td> <a href="{{ path('sheet', {'id': sheet.id }) }}" class="btn btn-sm btn-outline-secondary">Voir</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endif %}
+{% endblock %}
